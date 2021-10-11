@@ -1,0 +1,64 @@
+from rest_framework import permissions
+from rest_framework.generics import ListAPIView, CreateAPIView
+from .models import BoquetInfo, Item, Order, OrderDetails, Photo, User
+from .serializers import (BoquetInfoSerializer, ItemSerializer,
+                          OrderDetailsSerializer, OrderSerializer,
+                          PhotoSerializer, UserSerializer, RegisterSerializer)
+
+
+
+class RegisterView(CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = RegisterSerializer
+
+
+
+
+
+
+
+
+
+
+class UsersList(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,)
+
+
+class ItemList(ListAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,)
+
+
+class PhotosList(ListAPIView):
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,)
+
+
+class OrderList(ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,)
+
+
+class BoquetInfoList(ListAPIView):
+    queryset = BoquetInfo.objects.all()
+    serializer_class = BoquetInfoSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,)
+
+
+class OrderDetailsList(ListAPIView):
+    queryset = OrderDetails.objects.all()
+    serializer_class = OrderDetailsSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,)
+
