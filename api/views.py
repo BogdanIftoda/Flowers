@@ -1,24 +1,36 @@
 from rest_framework import permissions
+from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, CreateAPIView
 from .models import BoquetInfo, Item, Order, OrderDetails, Photo, User
 from .serializers import (BoquetInfoSerializer, ItemSerializer,
                           OrderDetailsSerializer, OrderSerializer,
                           PhotoSerializer, UserSerializer, RegisterSerializer)
-
-
+from django.http import Http404
+from rest_framework.response import Response
 
 class RegisterView(CreateAPIView):
+    """
+        Registration view
+    """
     queryset = User.objects.all()
     permission_classes = (permissions.AllowAny,)
     serializer_class = RegisterSerializer
 
 
-
-
-
-
-
-
+class ItemDetail(APIView):
+    """
+        Item detail view
+    """
+    def get_object(self, item_id):
+        try:
+            return Item.objects.get(id=item_id)
+        except Item.DoesNotExist:
+            raise Http404
+    
+    def get(self, request, item_id):
+        item = self.get_object(item_id)
+        serializer = ItemSerializer(item)
+        return Response(serializer.data)
 
 
 class UsersList(ListAPIView):

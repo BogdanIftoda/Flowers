@@ -37,7 +37,7 @@ class Item(models.Model):
         max_length=50, choices=TYPES)
 
     def __str__(self):
-        return self.name
+        return self.name + ' ' + str(self.id)
 
 
 class Photo(models.Model):
