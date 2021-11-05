@@ -53,8 +53,7 @@ class Photo(models.Model):
     id = models.AutoField(primary_key=True)
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, related_name='photos')
-    photo = models.ImageField(
-        upload_to='images/', blank=True, null=True)
+    photo = models.ImageField(blank=True, null=True)
     photo_type = models.CharField(max_length=60, choices=TYPES)
 
     def __str__(self):
