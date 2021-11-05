@@ -50,8 +50,8 @@ class ItemList(ListAPIView):
 class PhotosList(ListAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = (
-        permissions.IsAuthenticated,)
+    # permission_classes = (
+        # permissions.IsAuthenticated,)
 
 
 class OrderList(ListAPIView):
