@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2d44cf366bdf6ca965e8250dabb25f364d89c2ab90743f00826d929f9f045002"
+            "sha256": "727e846f998566c99c867b085ea5017399f8987222fb978a0e3bcbe9e36d2dea"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -36,6 +36,13 @@
             ],
             "markers": "python_version >= '3'",
             "version": "==2.0.7"
+        },
+        "cloudinary": {
+            "hashes": [
+                "sha256:c6778f14a47f632378be172bbd470088421ac7ee0ace01fc9658ac3ac0ecd82d"
+            ],
+            "index": "pypi",
+            "version": "==1.26.0"
         },
         "coreapi": {
             "hashes": [
@@ -370,6 +377,14 @@
             ],
             "markers": "python_version >= '2.5' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==3.17.5"
+        },
+        "six": {
+            "hashes": [
+                "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
+                "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+            "version": "==1.16.0"
         },
         "sqlparse": {
             "hashes": [

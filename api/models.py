@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from cloudinary.models import CloudinaryField
 
 class User(AbstractUser):
 
@@ -21,20 +21,10 @@ class User(AbstractUser):
 
 class Item(models.Model):
 
-    FLOWER = 'FLOWER'
-    NOTFLOWER = 'NOTFLOWER'
-
-    TYPES = (
-        (FLOWER, 'Flower'),
-        (NOTFLOWER, 'NotFlower'),
-    )
-
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=60)
     in_stock = models.PositiveIntegerField(default=0)
     price = models.FloatField()
-    item_type = models.CharField(
-        max_length=50, choices=TYPES)
 
     def __str__(self):
         return self.name + ' ' + str(self.id)
@@ -42,19 +32,11 @@ class Item(models.Model):
 
 class Photo(models.Model):
 
-    FLOWER = 'flower'
-    NOTFLOWER = 'notflower'
-
-    TYPES = (
-        (FLOWER, 'flower'),
-        (FLOWER, 'notflower'),
-    )
 
     id = models.AutoField(primary_key=True)
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, related_name='photos')
-    photo = models.ImageField(blank=True, null=True)
-    photo_type = models.CharField(max_length=60, choices=TYPES)
+    photo = CloudinaryField('image')
 
     def __str__(self):
         return self.item.name

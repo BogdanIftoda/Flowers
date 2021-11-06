@@ -15,6 +15,7 @@ gunicorn = "*"
 whitenoise = "*"
 django-cors-headers = "*"
 django-heroku = "*"
+cloudinary = "*"
 
 [dev-packages]
 autopep8 = "*"
