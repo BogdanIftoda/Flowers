@@ -32,7 +32,6 @@ class Item(models.Model):
 
 class Photo(models.Model):
 
-
     id = models.AutoField(primary_key=True)
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, related_name='photos')
