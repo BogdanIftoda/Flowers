@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
+from datetime import timedelta
 
 import cloudinary
 import cloudinary.uploader
@@ -167,7 +168,11 @@ cloudinary.config(
   api_secret = "TxuF-oiKB4sYEobipPJWPVArQIY" 
 )
 
-
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
+    'ROTATE_REFRESH_TOKENS': False,
+}
 
 django_heroku.settings(locals())
 
