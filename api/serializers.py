@@ -52,7 +52,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-        fields = ['id', 'photo', 'photo_type', 'item']
+        fields = ['id', 'photo','item']
 
 
 class ItemSerializer(serializers.ModelSerializer):
