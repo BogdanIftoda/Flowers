@@ -167,8 +167,6 @@ cloudinary.config(
   api_secret = "TxuF-oiKB4sYEobipPJWPVArQIY" 
 )
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 django_heroku.settings(locals())
 
