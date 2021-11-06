@@ -1,8 +1,8 @@
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, CreateAPIView
-from .models import BoquetInfo, Item, Order, OrderDetails, Photo, User
-from .serializers import (BoquetInfoSerializer, ItemSerializer,
+from .models import Item, Order, OrderDetails, Photo, User
+from .serializers import (ItemSerializer,
                           OrderDetailsSerializer, OrderSerializer,
                           PhotoSerializer, UserSerializer, RegisterSerializer)
 from django.http import Http404
@@ -37,14 +37,14 @@ class UsersList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (
-        permissions.IsAuthenticated,)
+        permissions.IsAuthenticated, permissions.)
 
 
 class ItemList(ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-    permission_classes = (
-        permissions.IsAuthenticated,)
+    # permission_classes = (
+    #     permissions.IsAuthenticated,)
 
 
 class PhotosList(ListAPIView):
@@ -59,14 +59,6 @@ class OrderList(ListAPIView):
     serializer_class = OrderSerializer
     permission_classes = (
         permissions.IsAuthenticated,)
-
-
-class BoquetInfoList(ListAPIView):
-    queryset = BoquetInfo.objects.all()
-    serializer_class = BoquetInfoSerializer
-    permission_classes = (
-        permissions.IsAuthenticated,)
-
 
 class OrderDetailsList(ListAPIView):
     queryset = OrderDetails.objects.all()

@@ -44,27 +44,22 @@ class Photo(models.Model):
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    delivery_address = models.CharField(max_length=150)
     order_date = models.DateField(auto_now_add=True)
     order_competed = models.DateField()
 
+
     def __str__(self):
         return self.user.username + ' ' + str(self.order_date)
-
-
-class BoquetInfo(models.Model):
-    id = models.AutoField(primary_key=True)
-    delivery_address = models.CharField(max_length=150)
-
-    def __str__(self):
-        return self.delivery_address
 
 
 class OrderDetails(models.Model):
     id = models.AutoField(primary_key=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     amount = models.FloatField()
+    quantity = models.IntegerField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    boquet_info = models.ForeignKey(BoquetInfo, on_delete=models.CASCADE)
+    
 
     def __str__(self):
         return self.item.name

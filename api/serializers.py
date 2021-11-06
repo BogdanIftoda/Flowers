@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-from .models import BoquetInfo, Item, Order, OrderDetails, Photo, User
+from .models import Item, Order, OrderDetails, Photo, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -72,18 +72,10 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BoquetInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BoquetInfo
-        fields = '__all__'
-
-
 class OrderDetailsSerializer(serializers.ModelSerializer):
 
     item = ItemSerializer()
     order = OrderSerializer()
-    boquet_info = BoquetInfoSerializer()
-
     class Meta:
         model = OrderDetails
         fields = '__all__'
