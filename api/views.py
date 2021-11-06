@@ -37,7 +37,7 @@ class UsersList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (
-        permissions.IsAuthenticated, permissions.)
+        permissions.IsAuthenticated, )
 
 
 class ItemList(ListAPIView):
