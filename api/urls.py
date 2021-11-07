@@ -2,12 +2,13 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views import (CurrentUser, OrderDetailsList, OrderList, PhotosList,
-                    RegisterView, UserViewSet, ItemViewSet)
+                    RegisterView, UserViewSet, ItemViewSet, PhotoViewSet)
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'items', ItemViewSet)
 router.register(r'users', UserViewSet)
+router.register('photos', PhotoViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

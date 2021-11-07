@@ -47,6 +47,13 @@ class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
+class PhotoViewSet(viewsets.ModelViewSet):
+    """
+    This viewset provides `get`,`post`, `put`, `patch`, `delete` methods.
+    """
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
+
 
 class UsersList(ListAPIView):
     queryset = User.objects.all()
