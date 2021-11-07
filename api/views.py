@@ -8,6 +8,20 @@ from .serializers import (ItemSerializer,
 from django.http import Http404
 from rest_framework.response import Response
 
+from .permissions import IsAuthorOrReadOnly
+
+
+
+from rest_framework import viewsets
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `retrieve` actions.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 class RegisterView(CreateAPIView):
     """
         Registration view
@@ -65,4 +79,5 @@ class OrderDetailsList(ListAPIView):
     serializer_class = OrderDetailsSerializer
     permission_classes = (
         permissions.IsAuthenticated,)
+
 

@@ -1,8 +1,14 @@
-from django.urls import path
-from .views import ItemList, OrderDetailsList, OrderList, PhotosList, UsersList, RegisterView, ItemDetail
+from django.urls import path, include
+from .views import ItemList, OrderDetailsList, OrderList, PhotosList, UsersList, RegisterView, ItemDetail, UserViewSet
 
+
+from rest_framework.routers import DefaultRouter
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('user_list/', UsersList.as_view()),
     path('item_list/', ItemList.as_view()),
     path('item_detail/<int:item_id>/', ItemDetail.as_view()),

@@ -57,7 +57,6 @@ class OrderDetails(models.Model):
     id = models.AutoField(primary_key=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     amount = models.FloatField()
-    quantity = models.IntegerField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     
 
