@@ -34,7 +34,7 @@ class CurrentUser(APIView):
 
     def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+        return Response(UserSerializer(request.user).data)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
@@ -58,3 +58,5 @@ class OrderList(ListAPIView):
 class OrderDetailsList(ListAPIView):
     queryset = OrderDetails.objects.all()
     serializer_class = OrderDetailsSerializer
+
+
