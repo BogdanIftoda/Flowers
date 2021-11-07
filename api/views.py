@@ -32,7 +32,7 @@ class CurrentUser(APIView):
     """
         Get current user
     """
-
+    authentication_classes = [JWTAuthentication,]
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
