@@ -1,16 +1,12 @@
-from rest_framework import permissions
-from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, CreateAPIView
-from .models import Item, Order, OrderDetails, Photo, User
-from .serializers import (ItemSerializer,
-                          OrderDetailsSerializer, OrderSerializer,
-                          PhotoSerializer, UserSerializer, RegisterSerializer)
+from rest_framework import permissions, viewsets
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .permissions import IsAuthorOrReadOnly
-
-
-from rest_framework import viewsets
+from .models import Item, Order, OrderDetails, Photo, User
+from .serializers import (ItemSerializer, OrderDetailsSerializer,
+                          OrderSerializer, PhotoSerializer, RegisterSerializer,
+                          UserSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,7 +15,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permissions = (permissions.IsAuthenticatedOrReadOnly)
+    permission_classes = (permissions.IsAuthenticated)
 
 
 class RegisterView(CreateAPIView):
@@ -35,6 +31,8 @@ class CurrentUser(APIView):
     """
         Get current user
     """
+
+    authentication_classes = [JWTAuthentication,]
 
     def get(self, request):
         serializer = UserSerializer(request.user)
@@ -52,19 +50,13 @@ class ItemViewSet(viewsets.ModelViewSet):
 class PhotosList(ListAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    # permission_classes = (
-    # permissions.IsAuthenticated,)
 
 
 class OrderList(ListAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = (
-        permissions.IsAuthenticated,)
 
 
 class OrderDetailsList(ListAPIView):
     queryset = OrderDetails.objects.all()
     serializer_class = OrderDetailsSerializer
-    permission_classes = (
-        permissions.IsAuthenticated,)
