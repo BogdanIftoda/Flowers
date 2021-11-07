@@ -23,12 +23,16 @@ from rest_framework_swagger.views import get_swagger_view
 
 schema_view = get_swagger_view(title='Flowers API')
 
+from rest_framework.authtoken import views
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/', include('api.urls')),
-    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api-token-auth/', views.obtain_auth_token),
+    # path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('', schema_view),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
