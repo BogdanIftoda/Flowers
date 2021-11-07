@@ -2,7 +2,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework.authentication import TokenAuthentication
 from .models import Item, Order, OrderDetails, Photo, User
 from .serializers import (ItemSerializer, OrderDetailsSerializer,
                           OrderSerializer, PhotoSerializer, RegisterSerializer,
@@ -31,10 +31,10 @@ class CurrentUser(APIView):
     """
         Get current user
     """
-
+    authentication_classes = [TokenAuthentication]
     def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response(UserSerializer(request.user).data)
+        return Response(serializer)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
