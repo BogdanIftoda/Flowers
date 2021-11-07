@@ -45,7 +45,7 @@ class ItemViewSet(viewsets.ModelViewSet):
     This viewset provides `get`,`post`, `put`, `patch`, `delete` methods.
     """
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = ItemSerializer
 
 
 class UsersList(ListAPIView):

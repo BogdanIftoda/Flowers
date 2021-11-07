@@ -16,7 +16,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=256, blank=True, null=True)
 
     def __str__(self):
-        return self.username
+        return f"{self.username}, {self.id}"
 
 
 class Item(models.Model):
