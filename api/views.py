@@ -16,7 +16,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated)
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class RegisterView(CreateAPIView):
@@ -32,7 +32,7 @@ class CurrentUser(APIView):
     """
         Get current user
     """
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [TokenAuthentication,]
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
