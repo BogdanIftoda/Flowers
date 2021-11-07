@@ -2,7 +2,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authentication import TokenAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Item, Order, OrderDetails, Photo, User
 from .serializers import (ItemSerializer, OrderDetailsSerializer,
                           OrderSerializer, PhotoSerializer, RegisterSerializer,
@@ -16,7 +16,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = [TokenAuthentication,]
+    authentication_classes = [JWTAuthentication,]
 
 
 class RegisterView(CreateAPIView):
