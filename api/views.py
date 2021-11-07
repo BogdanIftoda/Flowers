@@ -34,7 +34,7 @@ class CurrentUser(APIView):
     """
         Get current user
     """
-
+    
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
@@ -46,27 +46,6 @@ class ItemViewSet(viewsets.ModelViewSet):
     """
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-
-class PhotoViewSet(viewsets.ModelViewSet):
-    """
-    This viewset provides `get`,`post`, `put`, `patch`, `delete` methods.
-    """
-    queryset = Photo.objects.all()
-    serializer_class = PhotoSerializer
-
-
-class UsersList(ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (
-        permissions.IsAuthenticated, )
-
-
-class ItemList(ListAPIView):
-    queryset = Item.objects.all()
-    serializer_class = ItemSerializer
-    # permission_classes = (
-    #     permissions.IsAuthenticated,)
 
 
 class PhotosList(ListAPIView):
