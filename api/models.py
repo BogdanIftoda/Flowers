@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from cloudinary.models import CloudinaryField
 
+
 class User(AbstractUser):
 
     ADMIN = 'admin'
@@ -48,7 +49,6 @@ class Order(models.Model):
     order_date = models.DateField(auto_now_add=True)
     order_competed = models.DateField()
 
-
     def __str__(self):
         return self.user.username + ' ' + str(self.order_date)
 
@@ -58,7 +58,6 @@ class OrderDetails(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     amount = models.FloatField()
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    
 
     def __str__(self):
         return self.item.name

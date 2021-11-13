@@ -3,6 +3,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from .models import Item, Order, OrderDetails, Photo, User
 from .serializers import (ItemSerializer, OrderDetailsSerializer,
                           OrderSerializer, PhotoSerializer, RegisterSerializer,
@@ -16,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = [JWTAuthentication,]
+    authentication_classes = [JWTAuthentication, ]
 
 
 class RegisterView(CreateAPIView):
@@ -50,6 +51,7 @@ class ItemViewSet(viewsets.ModelViewSet):
 class PhotosList(ListAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+
 
 class OrderViewSet(viewsets.ModelViewSet):
     """

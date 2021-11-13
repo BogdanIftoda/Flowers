@@ -1,8 +1,8 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (CurrentUser, OrderDetailsViewSet, OrderViewSet, PhotosList,
-                    RegisterView, UserViewSet, ItemViewSet)
+from .views import (CurrentUser, ItemViewSet, OrderDetailsViewSet,
+                    OrderViewSet, PhotosList, RegisterView, UserViewSet)
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
@@ -18,21 +18,3 @@ urlpatterns = [
     path('current_user/', CurrentUser.as_view()),
     path('photo_list/', PhotosList.as_view()),
 ]
-
-
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework.authentication import TokenAuthentication
-
-# # Product Generic Viewset
-# class ProductViewSet(viewsets.ModelViewSet):
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
-
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
-
-
-# # Category Generic View
-# class CategoryViewSet(viewsets.ModelViewSet):
-#     queryset = ProductCategory.objects.all()
-#     serializer_class = CategorySerializer
