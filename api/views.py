@@ -32,7 +32,8 @@ class CurrentUser(APIView):
     """
         Get current user
     """
-    authentication_classes = [JWTAuthentication,]
+    authentication_classes = [JWTAuthentication, ]
+
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
@@ -50,12 +51,17 @@ class PhotosList(ListAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
 
-
-class OrderList(ListAPIView):
+class OrderViewSet(viewsets.ModelViewSet):
+    """
+    This viewset provides `get`,`post`, `put`, `patch`, `delete` methods.
+    """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
 
-class OrderDetailsList(ListAPIView):
+class OrderDetailsViewSet(viewsets.ModelViewSet):
+    """
+    This viewset provides `get`,`post`, `put`, `patch`, `delete` methods.
+    """
     queryset = OrderDetails.objects.all()
     serializer_class = OrderDetailsSerializer

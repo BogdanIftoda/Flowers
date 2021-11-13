@@ -1,12 +1,14 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (CurrentUser, OrderDetailsList, OrderList, PhotosList,
+from .views import (CurrentUser, OrderDetailsViewSet, OrderViewSet, PhotosList,
                     RegisterView, UserViewSet, ItemViewSet)
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'items', ItemViewSet)
+router.register(r'orders', OrderViewSet)
+router.register(r'orderDetails', OrderDetailsViewSet)
 router.register(r'users', UserViewSet)
 
 
@@ -15,9 +17,6 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='auth_register'),
     path('current_user/', CurrentUser.as_view()),
     path('photo_list/', PhotosList.as_view()),
-    path('order_list/', OrderList.as_view()),
-    path('order_details_list/', OrderDetailsList.as_view()),
-
 ]
 
 
