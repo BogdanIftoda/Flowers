@@ -1,5 +1,6 @@
 from rest_framework import permissions, viewsets
 from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -40,13 +41,13 @@ class CurrentUser(APIView):
         return Response(serializer.data)
 
 
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemViewSet(ListAPIView):
     """
     This viewset provides `get`,`post`, `put`, `patch`, `delete` methods.
     """
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
-
+    permissions_class = PageNumberPagination
 
 class PhotosList(ListAPIView):
     queryset = Photo.objects.all()
