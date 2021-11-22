@@ -41,7 +41,7 @@ class CurrentUser(APIView):
         return Response(serializer.data)
 
 
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemViewSet(ListAPIView):
     """
     This viewset provides `get`,`post`, `put`, `patch`, `delete` methods.
     """
