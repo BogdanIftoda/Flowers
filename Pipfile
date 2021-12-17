@@ -15,6 +15,7 @@ gunicorn = "*"
 django-cors-headers = "*"
 django-heroku = "*"
 cloudinary = "*"
+drf-yasg = "*"
 
 [dev-packages]
 autopep8 = "*"
