@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from cloudinary.models import CloudinaryField
+from django.db.models.fields.related import ManyToManyField
 
 
 class User(AbstractUser):
@@ -41,23 +42,30 @@ class Photo(models.Model):
     def __str__(self):
         return self.item.name
 
+class OrderDetails(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    
+    def get_product_total(self):
+        return self.item.price * self.quantity
+
+    def __str__(self):
+        return self.item.name
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order_detail_items = ManyToManyField(OrderDetails)
     delivery_address = models.CharField(max_length=150)
     order_date = models.DateField(auto_now_add=True)
-    order_competed = models.DateField()
 
     def __str__(self):
         return self.user.username + ' ' + str(self.order_date)
 
-
-class OrderDetails(models.Model):
-    id = models.AutoField(primary_key=True)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    amount = models.FloatField()
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.item.name
+    def get_order_total(self):
+        total = 0
+        for item in self.order_detail_items.all():
+            total += item.get_product_total()
+        return total

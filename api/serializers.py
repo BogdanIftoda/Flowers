@@ -74,6 +74,12 @@ class ItemPhotoSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        exclude = ['user']
+
+class OrderUserSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=True)
 
     class Meta:
@@ -82,10 +88,16 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderDetails
+        exclude = ['user']
 
-    item = ItemSerializer(many=True)
-    order = OrderSerializer()
+
+class OrderDetailsItemsSerializer(serializers.ModelSerializer):
+    item = ItemSerializer()
+    user = UserSerializer()
 
     class Meta:
         model = OrderDetails
         fields = '__all__'
+

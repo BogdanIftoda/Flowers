@@ -13,7 +13,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Item, Order, OrderDetails, Photo, User
 from .serializers import (ItemSerializer, OrderDetailsSerializer,
                           OrderSerializer, PhotoSerializer, RegisterSerializer,
-                          UserSerializer, ItemPhotoSerializer)
+                          UserSerializer, ItemPhotoSerializer, OrderUserSerializer, OrderDetailsItemsSerializer)
+from rest_framework import status
 
 current_user = openapi.Response('', UserSerializer)
 
@@ -78,13 +79,40 @@ class PhotosList(ListAPIView):
         return self.list(request, *args, **kwargs)
 
 
-class OrderViewSet(viewsets.ModelViewSet):
+@method_decorator(name='update', decorator=swagger_auto_schema(request_body=OrderSerializer))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(request_body=OrderSerializer))
+class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin,
+                  DestroyModelMixin):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     # permission_classes = (permissions.IsAuthenticated, )
 
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return OrderSerializer
+        return OrderUserSerializer
 
-class OrderDetailsViewSet(viewsets.ModelViewSet):
-    queryset = OrderDetails.objects.all()
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+@method_decorator(name='update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))
+class OrderDetailsViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin,
+                  DestroyModelMixin):
     serializer_class = OrderDetailsSerializer
     # permission_classes = (permissions.IsAuthenticated, )
+    def get_queryset(self):
+        user = self.request.user
+        order_detail = OrderDetails.objects.filter(user=user)
+        return order_detail
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return OrderDetailsSerializer
+        return OrderDetailsItemsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+

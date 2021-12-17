@@ -6,10 +6,10 @@ from .views import (CurrentUser, ItemViewSet, OrderDetailsViewSet,
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
-router.register(r'items', ItemViewSet)
-router.register(r'orders', OrderViewSet)
-router.register(r'orderDetails', OrderDetailsViewSet)
-router.register(r'users', UserViewSet)
+router.register(r'items', ItemViewSet, basename='items')
+router.register(r'orders', OrderViewSet, basename='orders')
+router.register(r'orderDetails', OrderDetailsViewSet, basename='orderDetails')
+router.register(r'users', UserViewSet, basename='users')
 
 
 urlpatterns = [
