@@ -5,7 +5,6 @@ from rest_framework import permissions, viewsets
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, \
     DestroyModelMixin
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
@@ -65,6 +64,7 @@ class ItemViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMode
             return ItemSerializer
         return ItemPhotoSerializer
 
+
 class PhotosList(ListAPIView):
     """
          Get current user
@@ -81,8 +81,10 @@ class PhotosList(ListAPIView):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
 
 
 class OrderDetailsViewSet(viewsets.ModelViewSet):
     queryset = OrderDetails.objects.all()
     serializer_class = OrderDetailsSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
