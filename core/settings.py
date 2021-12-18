@@ -182,3 +182,14 @@ SIMPLE_JWT = {
 }
 
 django_heroku.settings(locals())
+
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'DRF Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
