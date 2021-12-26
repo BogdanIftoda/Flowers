@@ -152,7 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.User'
 
-#DRF config
+# DRF config
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
@@ -165,14 +165,29 @@ REST_FRAMEWORK = {
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
 
-#Cloudinary config
+
+# swagger config
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'DRF Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
+
+
+# Cloudinary config
 cloudinary.config(
     cloud_name="defxxvhq8",
     api_key="723385593734319",
     api_secret="TxuF-oiKB4sYEobipPJWPVArQIY"
 )
 
-#JWT config
+
+# JWT config
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
@@ -182,14 +197,3 @@ SIMPLE_JWT = {
 }
 
 django_heroku.settings(locals())
-
-
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'DRF Token': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
-    }
-}
