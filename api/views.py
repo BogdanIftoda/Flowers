@@ -85,6 +85,7 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
                   DestroyModelMixin):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    authentication_classes = (JWTAuthentication,)
 
     def get_serializer_class(self):
         if self.action == 'create':
