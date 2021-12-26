@@ -47,9 +47,6 @@ class OrderDetails(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    
-    def get_product_total(self):
-        return self.item.price * self.quantity
 
     def __str__(self):
         return self.item.name
@@ -60,6 +57,7 @@ class Order(models.Model):
     order_detail_items = ManyToManyField(OrderDetails)
     delivery_address = models.CharField(max_length=150)
     order_date = models.DateField(auto_now_add=True)
+    created = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username + ' ' + str(self.order_date)

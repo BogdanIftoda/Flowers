@@ -1,3 +1,4 @@
+from enum import unique
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -74,9 +75,10 @@ class ItemPhotoSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    order_detail_items = serializers.ListField()
     class Meta:
         model = Order
-        exclude = ['user']
+        exclude = ['user', 'created']
 
 
 class OrderDetailsSerializer(serializers.ModelSerializer):

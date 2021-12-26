@@ -108,17 +108,14 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
             print(item)
             ordered_product_qs = OrderDetails.objects.filter(
                 item=item)
-            # print(ordered_product_qs)
             if ordered_product_qs.exists():
                 ordered_product = ordered_product_qs[0]
                 ordered_product.quantity += 1
                 ordered_product.save()
             else:
                 order_qs = Order.objects.filter(user=user, created=False)
-                print(order_qs)
                 ordered_product = OrderDetails.objects.create(
                     user=user, item=item)
-
                 if order_qs.exists():
                     order = order_qs[0]
                     order.order_detail_items.add(ordered_product)
