@@ -81,9 +81,7 @@ class PhotosList(ListAPIView):
         return self.list(request, *args, **kwargs)
 
 
-@method_decorator(name='update', decorator=swagger_auto_schema(request_body=OrderSerializer))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(request_body=OrderSerializer))
-class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin,
+class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin,
                   DestroyModelMixin):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -92,9 +90,6 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
         if self.action == 'create':
             return OrderSerializer
         return OrderUserSerializer
-
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -105,28 +100,21 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
         print(items)
         for pk in items:
             item = get_object_or_404(Item, id=pk)
-            print(item)
-            ordered_product_qs = OrderDetails.objects.filter(
-                item=item)
-            if ordered_product_qs.exists():
-                ordered_product = ordered_product_qs[0]
-                ordered_product.quantity += 1
-                ordered_product.save()
+            order_qs = Order.objects.filter(user=user, created=False)
+            ordered_product = OrderDetails.objects.create(
+                user=user, item=item)
+            if order_qs.exists():
+                order = order_qs[0]
+                order.order_detail_items.add(ordered_product)
+                order.save()
             else:
-                order_qs = Order.objects.filter(user=user, created=False)
-                ordered_product = OrderDetails.objects.create(
-                    user=user, item=item)
-                if order_qs.exists():
-                    order = order_qs[0]
-                    order.order_detail_items.add(ordered_product)
-                    order.save()
-
-                else:
-                    order = Order.objects.create(user=user)
-                    order.delivery_address = data['delivery_address']
-                    order.order_detail_items.add(ordered_product)
-                    order.save()
-
+                order = Order.objects.create(user=user)
+                order.delivery_address = data['delivery_address']
+                order.order_detail_items.add(ordered_product)
+                order.save()
+        order = Order.objects.get(user=user, created=False)
+        order.created = True
+        order.save()
         return Response(status=status.HTTP_200_OK)
 
 @method_decorator(name='update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))
@@ -134,7 +122,6 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
 class OrderDetailsViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin,
                   DestroyModelMixin):
     serializer_class = OrderDetailsSerializer
-    # permission_classes = (permissions.IsAuthenticated, )
     def get_queryset(self):
         user = self.request.user
         order_detail = OrderDetails.objects.filter(user=user)
