@@ -62,7 +62,7 @@ class CurrentUser(APIView):
 class ItemViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin,
                   DestroyModelMixin):
     queryset = Item.objects.all()
-    permission_classes = (permissions.IsAuthenticated, )
+    # permission_classes = (permissions.IsAuthenticated, )
 
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
@@ -99,6 +99,38 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        print(request.data)
+        items = kwargs['order_detail_items']
+        items_list = []
+        for pk in items:
+            items = get_object_or_404(Item, id=pk)
+        # ordered_product_qs = OrderDetails.objects.filter(
+        #     item=item)
+        # if ordered_product_qs.exists():
+        #     ordered_product = ordered_product_qs[0]
+        #     ordered_product.quantity += 1
+        #     ordered_product.save()
+        #     return Response({'success': 'item quantity updated'}, status=status.HTTP_200_OK)
+        # else:
+        #     order_qs = Order.objects.filter(user=user)
+        #     ordered_product = OrderDetails.objects.create(
+        #         user=user, item=item)
+
+        #     if order_qs.exists():
+        #         order = order_qs[0]
+        #         order.order_detail_items.add(ordered_product)
+        #         order.save()
+        #         return Response({'success': 'item added to your cart'}, status=status.HTTP_200_OK)
+
+        #     else:
+        #         order = Order.objects.create(user=user)
+        #         order.order_detail_items.add(ordered_product)
+        #         order.save()
+        #         return Response({'success': 'item added to your cart'}, status=status.HTTP_200_OK)
+
+        return Response()
 
 @method_decorator(name='update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))
 @method_decorator(name='partial_update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))
