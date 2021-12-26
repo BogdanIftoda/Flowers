@@ -169,10 +169,6 @@ REST_FRAMEWORK = {
 # swagger config
 SWAGGER_SETTINGS = {
     # 'USE_SESSION_AUTH': False,
-    'SECURITY_DEFINITIONS': {
-        'basic': {
-            'type': 'basic'
-        },
         'DRF Token': {
             'type': 'apiKey',
             'name': 'Authorization',
@@ -192,7 +188,7 @@ cloudinary.config(
 
 # JWT config
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
     'ROTATE_REFRESH_TOKENS': False,
     'AUTH_HEADER_TYPES': ('JWT',),
