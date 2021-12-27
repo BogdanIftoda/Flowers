@@ -104,7 +104,6 @@ class OrderUserSerializer(serializers.ModelSerializer):
 
 
 class GetOrderSerializer(serializers.ModelSerializer):
-    # user = UserSerializer(read_only=True)
     order_detail_items = OrderDetailsSerializer(many=True, read_only=True)
     class Meta:
         model = Order

@@ -59,7 +59,7 @@ class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_detail_items = ManyToManyField(OrderDetails)
-    delivery_address = models.CharField(max_length=150)
+    delivery_address = models.CharField(max_length=2000)
     order_date = models.DateField(auto_now_add=True)
     created = models.BooleanField(default=False)
     total = models.IntegerField(null=True, blank=True)
