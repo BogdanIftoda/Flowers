@@ -22,13 +22,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
 
+    phone = serializers.RegexField(r'^\+[1-9]\d{1,14}$')
+
     class Meta:
         model = User
         fields = ('username', 'password', 'password2',
-                  'email', 'first_name', 'last_name')
+                  'email', 'first_name', 'last_name', 'phone')
         extra_kwargs = {
             'first_name': {'required': True},
-            'last_name': {'required': True}
+            'last_name': {'required': True},
+            'phone': {'required': True}
         }
 
     def validate(self, attrs):
