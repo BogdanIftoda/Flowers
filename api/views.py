@@ -81,10 +81,11 @@ class PhotosList(ListAPIView):
         return self.list(request, *args, **kwargs)
 
 
+from .serializers import GetOrderSerializer
+
 class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin,
                   DestroyModelMixin):
     queryset = Order.objects.all()
-    # serializer_class = OrderSerializer
     authentication_classes = (JWTAuthentication,)
 
     def get_serializer_class(self):
@@ -119,16 +120,13 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
         order.save()
         return Response(status=status.HTTP_200_OK)
 
-    # @swagger_auto_schema(responses={200: get_orders})
-    # @action(detail=False, methods=['get'])
-    # def get_orders(self, request):
-    #     user = request.user
-    #     orders = Order.objects.filter(user=user, created=True)
-    #     serializer = OrderUserSerializer(orders)
-    #     return Response(serializer.data)
-
-
-    #     return Response(status=status.HTTP_200_OK, data=serializer.data)
+    @swagger_auto_schema(responses={200: get_orders})
+    @action(detail=False, methods=['get'])
+    def get_orders(self, request):
+        queryset = Order.objects.filter(user=request.user, created=True)
+        print(queryset)
+        serializer = GetOrderSerializer(queryset, many=True)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 @method_decorator(name='update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))

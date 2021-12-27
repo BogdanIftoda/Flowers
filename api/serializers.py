@@ -102,3 +102,10 @@ class OrderUserSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+
+class GetOrderSerializer(serializers.ModelSerializer):
+    # user = UserSerializer(read_only=True)
+    order_detail_items = OrderDetailsSerializer(many=True, read_only=True)
+    class Meta:
+        model = Order
+        fields = '__all__'
