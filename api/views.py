@@ -15,7 +15,7 @@ from .models import Item, Order, OrderDetails, Photo, User
 from .serializers import (ItemPhotoSerializer, ItemSerializer,
                           OrderDetailsItemsSerializer, OrderDetailsSerializer,
                           OrderSerializer, OrderUserSerializer,
-                          PhotoSerializer, RegisterSerializer, UserSerializer)
+                          PhotoSerializer, RegisterSerializer, UserSerializer, GetOrderSerializer)
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 
@@ -81,7 +81,7 @@ class PhotosList(ListAPIView):
         return self.list(request, *args, **kwargs)
 
 
-from .serializers import GetOrderSerializer
+
 
 class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin,
                   DestroyModelMixin):
@@ -99,12 +99,13 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
         order_serializer.is_valid(raise_exception=True)
         user = request.user
         items = data['order_detail_items']
-        print(items)
         for pk in items:
             item = get_object_or_404(Item, id=pk)
             order_qs = Order.objects.filter(user=user, created=False)
             ordered_product = OrderDetails.objects.create(
                 user=user, item=item)
+            item.in_stock -= ordered_product.quantity
+            item.save()
             if order_qs.exists():
                 order = order_qs[0]
                 order.order_detail_items.add(ordered_product)
