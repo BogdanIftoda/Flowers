@@ -9,7 +9,7 @@ from .models import Item, Order, OrderDetails, Photo, User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'phone', 'role', 'is_superuser']
+        fields = ['id', 'username', 'email', 'phone']
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -78,7 +78,7 @@ class OrderSerializer(serializers.ModelSerializer):
     order_detail_items = serializers.ListField()
     class Meta:
         model = Order
-        exclude = ['user', 'created']
+        exclude = ['user', 'created', 'total']
 
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
@@ -101,3 +101,4 @@ class OrderUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+

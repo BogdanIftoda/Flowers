@@ -25,6 +25,7 @@ class Item(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=60)
+    description = models.TextField(max_length=124)
     in_stock = models.PositiveIntegerField(default=0)
     price = models.FloatField()
 
@@ -51,6 +52,9 @@ class OrderDetails(models.Model):
     def __str__(self):
         return self.item.name
 
+    def get_product_total(self):
+        return self.item.price * self.quantity
+
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -58,6 +62,7 @@ class Order(models.Model):
     delivery_address = models.CharField(max_length=150)
     order_date = models.DateField(auto_now_add=True)
     created = models.BooleanField(default=False)
+    total = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.user.username + ' ' + str(self.order_date)

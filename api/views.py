@@ -1,7 +1,7 @@
 from django.utils.decorators import method_decorator
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import permissions, serializers, viewsets
+from rest_framework import permissions, serializers
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
                                    ListModelMixin, RetrieveModelMixin,
@@ -9,9 +9,8 @@ from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from rest_framework.decorators import action
 from .models import Item, Order, OrderDetails, Photo, User
 from .serializers import (ItemPhotoSerializer, ItemSerializer,
                           OrderDetailsItemsSerializer, OrderDetailsSerializer,
@@ -22,6 +21,7 @@ from rest_framework import status
 
 
 current_user = openapi.Response('', UserSerializer)
+get_orders = openapi.Response('', OrderSerializer)
 
 @method_decorator(name='update', decorator=swagger_auto_schema(request_body=UserSerializer))
 @method_decorator(name='partial_update', decorator=swagger_auto_schema(request_body=UserSerializer))
@@ -84,7 +84,7 @@ class PhotosList(ListAPIView):
 class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin,
                   DestroyModelMixin):
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    # serializer_class = OrderSerializer
     authentication_classes = (JWTAuthentication,)
 
     def get_serializer_class(self):
@@ -115,8 +115,21 @@ class OrderViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveMod
                 order.save()
         order = Order.objects.get(user=user, created=False)
         order.created = True
+        order.total = order.get_order_total()
         order.save()
         return Response(status=status.HTTP_200_OK)
+
+    # @swagger_auto_schema(responses={200: get_orders})
+    # @action(detail=False, methods=['get'])
+    # def get_orders(self, request):
+    #     user = request.user
+    #     orders = Order.objects.filter(user=user, created=True)
+    #     serializer = OrderUserSerializer(orders)
+    #     return Response(serializer.data)
+
+
+    #     return Response(status=status.HTTP_200_OK, data=serializer.data)
+
 
 @method_decorator(name='update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))
 @method_decorator(name='partial_update', decorator=swagger_auto_schema(request_body=OrderDetailsSerializer))
